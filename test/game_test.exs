@@ -33,4 +33,24 @@ defmodule GameTest do
     { game, _tally } = Game.make_move(game, "x")
     assert game.game_state == :already_used
   end
+
+  test "a good guess is recognized" do
+    game = Game.new_game("chocha")
+    { game, _tally } = Game.make_move(game, "o")
+    assert game.game_state == :good_guess
+    assert game.turn_left == 7
+  end
+
+  test "a guessed word is a won game" do
+    game = Game.new_game("beer")
+    { game, _tally } = Game.make_move(game, "b")
+    assert game.game_state == :good_guess
+    assert game.turn_left == 7
+    { game, _tally } = Game.make_move(game, "e")
+    assert game.game_state == :good_guess
+    assert game.turn_left == 7
+    { game, _tally } = Game.make_move(game, "r")
+    assert game.game_state == :won
+    assert game.turn_left == 7
+  end
 end
